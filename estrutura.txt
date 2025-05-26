@@ -1,0 +1,26 @@
+gerenciador_tarefa_web/
+├── app.py                     # Inicialização do Flask, rotas principais
+├── config.py                  # Configurações (banco de dados, chaves secretas)
+├── models.py                  # Definição dos modelos de banco de dados (SQLAlchemy)
+├── auth.py                    # Rotas e lógica de autenticação
+├── tasks.py                   # Rotas e lógica para CRUD de tarefas
+├── forms.py                   # Formulários WTForms (opcional, mas bom para validação)
+├── static/                    # Arquivos estáticos (CSS, JS, imagens)
+│   ├── css/
+│   │   └── style.css
+│   └── js/
+│       └── main.js
+├── templates/                 # Arquivos HTML (Jinja2)
+│   ├── base.html
+│   ├── index.html             # Página inicial com lista de tarefas
+│   ├── login.html
+│   ├── register.html
+│   ├── create_task.html
+│   └── edit_task.html
+├── tests/                     # Testes unitários (Pytest)
+│   ├── conftest.py
+│   ├── test_auth.py
+│   └── test_tasks.py
+├── .gitignore
+├── requirements.txt           # Dependências do projeto
+└── README.md

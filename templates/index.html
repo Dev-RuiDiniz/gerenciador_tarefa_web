@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Bem-vindo ao seu Gerenciador de Tarefas!</h2>
+    {% if current_user.is_authenticated %}
+        <p>Você está logado como {{ current_user.username }}.</p>
+        <p>Ainda não temos tarefas aqui, mas logo você poderá criar e gerenciar suas tarefas.</p>
+        {% else %}
+        <p>Por favor, <a href="{{ url_for('auth.register') }}">registre-se</a> ou <a href="{{ url_for('auth.login') }}">faça login</a> para começar a gerenciar suas tarefas.</p>
+    {% endif %}
+{% endblock %}
