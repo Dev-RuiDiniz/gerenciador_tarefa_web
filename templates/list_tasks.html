@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Minhas Tarefas</h2>
+    <p>
+        <a href="{{ url_for('tasks.create_task') }}" class="button">Criar Nova Tarefa</a>
+    </p>
+
+    <div class="filter-options">
+        Filtrar por Status:
+        <a href="{{ url_for('tasks.list_tasks', status='all') }}" class="{% if status_filter == 'all' or status_filter is none %}active{% endif %}">Todas</a> |
+        <a href="{{ url_for('tasks.list_tasks', status='pendente') }}" class="{% if status_filter == 'pendente' %}active{% endif %}">Pendentes</a> |
+        <a href="{{ url_for('tasks.list_tasks', status='concluida') }}" class="{% if status_filter == 'concluida' %}active{% endif %}">Concluídas</a>
+    </div>
+
+    {% if tasks %}
+        <ul class="task-list">
+            {% for task in tasks %}
+                <li class="task-item {% if task.status == 'concluida' %}task-completed{% endif %}">
+                    <h3><a href="{{ url_for('tasks.view_task', task_id=task.id) }}">{{ task.title }}</a></h3>
+                    <p>Status: <span class="task-status {{ task.status }}">{{ task.status.capitalize() }}</span></p>
+                    {% if task.due_date %}<p>Prazo: {{ task.due_date.strftime('%d/%m/%Y') }}</p>{% endif %}
+                    <p>Criado em: {{ task.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+                    <div class="task-actions">
+                        <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="button">Editar</a>
+                        {% if task.status == 'pendente' %}
+                            <form action="{{ url_for('tasks.complete_task', task_id=task.id) }}" method="POST" style="display: inline;">
+                                <input type="submit" value="Marcar como Concluída" class="button button-complete">
+                            </form>
+                        {% else %}
+                             <form action="{{ url_for('tasks.uncomplete_task', task_id=task.id) }}" method="POST" style="display: inline;">
+                                <input type="submit" value="Marcar como Pendente" class="button button-uncomplete">
+                            </form>
+                        {% endif %}
+                        <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+                            <input type="submit" value="Excluir" class="button button-delete">
+                        </form>
+                    </div>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Você ainda não tem tarefas. <a href="{{ url_for('tasks.create_task') }}">Crie uma agora!</a></p>
+    {% endif %}
+{% endblock %}

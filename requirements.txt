@@ -1,0 +1,7 @@
+Flask
+Flask-SQLAlchemy
+Flask-WTF
+Werkzeug
+pytest
+pytest-flask # Facilita o teste de aplicações Flask
+python-dotenv

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>{{ task.title }}</h2>
+    <p><strong>Descrição:</strong> {{ task.description or 'Nenhuma descrição.' }}</p>
+    <p><strong>Status:</strong> <span class="task-status {{ task.status }}">{{ task.status.capitalize() }}</span></p>
+    {% if task.due_date %}<p><strong>Prazo:</strong> {{ task.due_date.strftime('%d/%m/%Y') }}</p>{% endif %}
+    <p><strong>Criado em:</strong> {{ task.created_at.strftime('%d/%m/%Y %H:%M') }}</p>
+    <p><strong>Criado por:</strong> {{ task.author.username }}</p>
+
+    <div class="task-actions">
+        <a href="{{ url_for('tasks.edit_task', task_id=task.id) }}" class="button">Editar Tarefa</a>
+        {% if task.status == 'pendente' %}
+            <form action="{{ url_for('tasks.complete_task', task_id=task.id) }}" method="POST" style="display: inline;">
+                <input type="submit" value="Marcar como Concluída" class="button button-complete">
+            </form>
+        {% else %}
+            <form action="{{ url_for('tasks.uncomplete_task', task_id=task.id) }}" method="POST" style="display: inline;">
+                <input type="submit" value="Marcar como Pendente" class="button button-uncomplete">
+            </form>
+        {% endif %}
+        <form action="{{ url_for('tasks.delete_task', task_id=task.id) }}" method="POST" style="display: inline;" onsubmit="return confirm('Tem certeza que deseja excluir esta tarefa?');">
+            <input type="submit" value="Excluir Tarefa" class="button button-delete">
+        </form>
+    </div>
+    <p><a href="{{ url_for('tasks.list_tasks') }}">Voltar para a lista de tarefas</a></p>
+{% endblock %}

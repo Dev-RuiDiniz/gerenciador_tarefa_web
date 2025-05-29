@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Editar Tarefa: {{ task.title }}</h2>
+    <form method="POST">
+        {{ form.hidden_tag() }}
+        <p>
+            {{ form.title.label }}<br>
+            {{ form.title(size=60) }}
+            {% for error in form.title.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.description.label }}<br>
+            {{ form.description(cols=60, rows=5) }}
+            {% for error in form.description.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.due_date.label }}<br>
+            {{ form.due_date() }}
+            {% for error in form.due_date.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </p>
+        <p>
+            {{ form.status.label }}<br>
+            {{ form.status() }}
+            {% for error in form.status.errors %}
+                <span style="color: red;">[{{ error }}]</span><br>
+            {% endfor %}
+        </p>
+        <p>{{ form.submit() }}</p>
+    </form>
+    <p><a href="{{ url_for('tasks.view_task', task_id=task.id) }}">Cancelar</a></p>
+{% endblock %}
